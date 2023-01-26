@@ -3,7 +3,11 @@ const puppeteer = require("puppeteer");
 
 const app = express();
 
-app.get("/scrape/:hashtag", async (req, res) => {
+app.get("/", async (req, res) => {
+  res.send("ddd");
+});
+
+app.get("/:hashtag", async (req, res) => {
   const hashtag = req.params.hashtag;
   const url = `https://www.instagram.com/explore/tags/${hashtag}`;
 
@@ -17,7 +21,7 @@ app.get("/scrape/:hashtag", async (req, res) => {
   // Scrape the data
   const data = await page.evaluate(() => {
     const posts = Array.from(document.querySelectorAll("._aabd"));
-    return posts.map(post => {
+    return posts.map((post) => {
       const postUrl = post.querySelector("a").href;
       const imageUrl = post.querySelector("img").src;
       const caption = post.querySelector("img").alt;
